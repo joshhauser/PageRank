@@ -5,7 +5,7 @@ CFLAGS=-Wall
 # Executable file name
 EXEC=pagerank
 # Source files folder
-SRCDIR=.
+SRCDIR=src
 # Build folder
 BUILDDIR=build
 # Source files names
@@ -18,7 +18,7 @@ all: $(EXEC)
 
 # Create executable file with all objects files + main.c
 $(EXEC): $(OBJ)
-	$(CC) $(CFLAGS) -lm $^ -o  $@ -g
+	$(CC) $(CFLAGS) main.c -lm $^ -o  $@ -g
 
 # Create each object file with its source file
 %.o: $(SRCDIR)/%.c
@@ -26,4 +26,4 @@ $(EXEC): $(OBJ)
 
 # Delete objects file
 clean:
-	rm -r *.o
+	rm -r src/*.o

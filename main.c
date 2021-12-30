@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
-#include "matrix.h"
-#include "graph.h"
-#include "utils.h"
+#include "./headers/matrix.h"
+#include "./headers/graph.h"
+#include "./headers/utils.h"
 
 int main(int argc, char *argv[]) {
   char *file_path = NULL;
@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     file_path = argv[1];
   }
   else {
-    file_path = "Wiki-Vote.txt";
+    file_path = "./graphs/Wiki-Vote.txt";
   }
 
   Graph graph = get_graph_from_file(file_path);
