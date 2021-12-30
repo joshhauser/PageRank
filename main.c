@@ -1,15 +1,22 @@
 #include <stdio.h>
 #include <math.h>
+#include <unistd.h>
 #include "matrix.h"
 #include "graph.h"
 #include "utils.h"
 
-int main() {
-  Graph graph = get_graph_from_file("Wiki-Vote.txt");
+int main(int argc, char *argv[]) {
+  char *file_path = NULL;
+  int epsilon = 0.0000001;
+  int damping_factor = 0.85;
+
+  if (argc > 1) {
+    file_path = argv[1];
+  }
+  else {
+    file_path = "Wiki-Vote.txt";
+  }
+
+  Graph graph = get_graph_from_file(file_path);
   printf("nodes : %d\n", graph.vertices_count);
-  /**
-   * TODO:
-   * - use args instead of hard coded path
-   * - remove vertices_count and compute it when reading the file
-   */
 }
