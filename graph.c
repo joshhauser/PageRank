@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "graph.h"
 #include "utils.h"
+#include "graph.h"
+
 
 /**
  * @brief Get the graph from file object
@@ -12,7 +13,7 @@
  * the vertices array
  * @return Graph extracted from file
  */
-Graph get_graph_from_file(char *file_path, int vertices_count) {
+Graph get_graph_from_file(char *file_path) {
   FILE *fp;
   char *line = NULL;
   Graph graph;
@@ -30,14 +31,15 @@ Graph get_graph_from_file(char *file_path, int vertices_count) {
     exit(EXIT_FAILURE);
   }
 
+  graph.vertices_count = 0;
   // Allocate graph
-  graph.vertices = (Vertice*) malloc(vertices_count * sizeof(Vertice));
+  graph.vertices = (Vertice*) malloc(sizeof(Vertice));
   
   // Read graph file
   while ((read = getline(&line, &length, fp)) != -1) {
     // Scan first vertice label
     sscanf(&line[0], "%d", &value);
-    int from_index = index_in_array(graph.vertices, vertices_count, value);
+    int from_index = index_in_array(graph.vertices, graph.vertices_count, value);
     
     // FIRST VERTICE
     if (from_index == -1) {
@@ -45,36 +47,41 @@ Graph get_graph_from_file(char *file_path, int vertices_count) {
       from.neighbours_count = 1;
       from.neighbours = (Vertice *) malloc(sizeof(Vertice));
       from_index = i;
+      i++;
+      graph.vertices_count++;
+      graph.vertices = (Vertice*) realloc(graph.vertices, graph.vertices_count * sizeof(Vertice));
     }
     else {
       from = graph.vertices[from_index];
       from.neighbours_count++;
-      from.neighbours = (Vertice *) realloc(from.neighbours, from.neighbours_count);
+      from.neighbours = (Vertice*) realloc(from.neighbours, from.neighbours_count * sizeof(Vertice));
     }
 
     // Get index of blank space that separates vertices in current line
     int bs_index = (int)(strchr(line, ' ') - line);
-    
+
     // Scan second vertice label
     sscanf(&line[bs_index+1], "%d", &value);
-    int to_index = index_in_array(graph.vertices, vertices_count, value);
 
+    int to_index = index_in_array(graph.vertices, graph.vertices_count, value);
+    
     // SECOND VERTICE
     if (to_index == -1) {
       to.label = value;
-      to.neighbours_count = 1;
-      to.neighbours = (Vertice *) malloc(sizeof(Vertice));
+      to.neighbours_count = 0; // The graph is supposed to be oriented
+      to.neighbours = (Vertice*) malloc(0);
       to_index = i;
+
+      i++;
+      graph.vertices_count++;
+      graph.vertices = (Vertice*) realloc(graph.vertices, graph.vertices_count * sizeof(Vertice));
     }
     else {
       to = graph.vertices[to_index];
-      to.neighbours_count++;
-      to.neighbours = (Vertice *) realloc(to.neighbours, to.neighbours_count);
     }
 
     // Add neighbours
     from.neighbours[from.neighbours_count - 1] = to;
-    to.neighbours[to.neighbours_count - 1] = from;
 
     // Add or update first vertice
     graph.vertices[from_index] = from;
@@ -82,8 +89,9 @@ Graph get_graph_from_file(char *file_path, int vertices_count) {
     // Add or update second vertice
     graph.vertices[to_index] = to;
 
-    i++;
   }
+
+  fclose(fp);
 
   return graph;
 }
@@ -94,22 +102,53 @@ Graph get_graph_from_file(char *file_path, int vertices_count) {
  * Ex : 0, 1, 2,...,vertices_count
  * 
  * @param graph the graph to normalise
- * @param vertices_count the number of vertices in the graph
  */
-void normalize_graph(Graph *graph, int vertices_count) {
+void normalize_graph(Graph *graph) {
   int i, j, k, old_label;
   Vertice vertice;
 
-  for (i = 0; i < vertices_count; i++) {
+  for (i = 0; i < graph->vertices_count; i++) {
     old_label = graph[i].vertices->label;
     graph->vertices[i].label = i;
 
     // Search and replace all occurrences of old_label
-    for (j = 0; j < vertices_count; i++) {
+    for (j = 0; j < graph->vertices_count; i++) {
       for (k = 0; k < graph->vertices[i].neighbours_count; k++) {
         vertice = graph->vertices[j].neighbours[k];
         if (vertice.label == old_label) vertice.label = i;
       }
     }
+  }
+}
+
+/**
+ * @brief Display graph info 
+ * - label
+ * - number of neighbours
+ * - neighbours list
+ * 
+ * @param graph the graph to display
+ */
+void display_graph(Graph graph) {
+  int i, j;
+
+  printf("Nodes count: %d\n", graph.vertices_count);
+
+  for (i = 0; i < graph.vertices_count; i++) {
+    printf("Vertice n°%d\n", graph.vertices[i].label);
+    printf("------------\n");
+    printf("Neighbours count: %d\n", graph.vertices[i].neighbours_count);
+    
+    if (graph.vertices[i].neighbours_count > 0) {
+      printf("Neighbours list : ");
+
+      for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
+        printf("%d ", graph.vertices[i].neighbours[j].label);
+      }
+      
+      printf("\n");
+    }
+
+    printf("-------------------------------------------------------\n");
   }
 }
