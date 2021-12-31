@@ -18,12 +18,12 @@ Execute the program, with or without args:
 ```Bash
 ./pagerank <graph path> <max_iterations> <damping factor>
 ```
+> Note that most of the time, `0.85` is recommanded for damping factor.
 
 - vithout args:
 ```Bash
 ./pagerank # default parameters are hard coded 
 ```
-> Note that most of the time, `0.85` is recommanded for damping factor.
 
 ## Useful links
 
