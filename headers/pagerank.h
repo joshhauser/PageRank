@@ -3,6 +3,6 @@
 
 #include "../headers/matrix.h"
 
-Vector apply_pagerank(Matrix matrix, double d, double epsilon);
+Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iterations);
 
 #endif

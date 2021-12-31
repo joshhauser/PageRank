@@ -105,7 +105,6 @@ Graph get_graph_from_file(char *file_path) {
  */
 void normalize_graph(Graph *graph) {
   int i, j, k, old_label;
-  Vertice vertice;
   int *updated_vertices = (int*) malloc(graph->vertices_count * sizeof(int));
 
   for (i = 0; i < graph->vertices_count; i++) {

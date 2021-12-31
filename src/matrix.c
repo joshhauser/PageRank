@@ -15,7 +15,7 @@ double compute_norm(Vector vector) {
   int i;
 
   for (i = 0; i < vector.length; i++) component_sum += pow(vector.array[i], 2.0);
-
+	
   return sqrt(component_sum);
 }
 
