@@ -187,3 +187,10 @@ void display_matrix(Matrix matrix) {
 		printf("\n");
 	}
 }
+
+void double_divide_vector(Vector *vector, double x) {
+	int i;
+
+	for (i = 0; i < vector->length; i++)
+		vector->array[i] /= x;
+}

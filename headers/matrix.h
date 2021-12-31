@@ -28,4 +28,5 @@ Matrix dot_matrices(Matrix matrix1, Matrix matrix2);
 Vector matrix_dot_vector(Matrix matrix, Vector vector);
 Matrix graph_to_matrix(Graph graph);
 void display_matrix(Matrix matrix);
+void double_divide_vector(Vector *vector, double x);
 #endif

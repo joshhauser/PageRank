@@ -8,7 +8,8 @@
 int main(int argc, char *argv[]) {
   char *file_path = NULL;
   /* int epsilon = 0.0000001;
-  int damping_factor = 0.85; */
+  int damping_factor = 0.85;
+  int max_iterations = 100; */
 
   if (argc > 1) {
     file_path = argv[1];

@@ -1,23 +1,24 @@
-#include "../headers/matrix.h"
+#include <math.h>
+#include "../headers/pagerank.h"
 
-
-Vector apply_pagerank(Matrix matrix, int d, int epsilon) {
+Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iterations) {
   int nodes_count = matrix.colums_number;
   // Initial vector
-  Vector v;
+  Vector v, previous_v;
   v.length = nodes_count;
   allocate_vector(&v);
   int converge = -1;
+  int err;
+  int i,j;
+  double norm;
+  
 
-  int i;
-
-  Vector damping_vector;
-  damping_vector.length = nodes_count;
-  allocate_vector(&damping_vector);
+  Matrix transition_matrix = matrix;
 
   for (i = 0; i < nodes_count; i++) {
-    v.array[i] = 1/v.length;
-    damping_vector.array[i] = d;
+    for (j = 0; j < nodes_count; j++) {
+      transition_matrix.array[i][j] *= d + ((1.0 - d) / (double) nodes_count);
+    }
   }
 
   /**
@@ -25,15 +26,19 @@ Vector apply_pagerank(Matrix matrix, int d, int epsilon) {
    * - add computing method for matrices/vector addition
    * 
    */
-  // while (!converge) {
-  //   v = matrix_dot_vector(matrix, v);
-  //   /**
-  //    * TODO:
-  //    * - compute norm then do v/norm
-  //    * 
-  //    */
+  for (i = 0; i < max_iterations; i++) {
+    previous_v = v;
+    v = matrix_dot_vector(transition_matrix, v);
+    norm = compute_norm(v);
+    double_divide_vector(&v, norm);
+    
+    err = 0;
 
-  // }
+    for (j = 0; j < nodes_count; j++)
+      err += fabs(v.array[j] - previous_v.array[j]);
+
+    if (err < epsilon) return v;
+  }
 
   return v;
 }
