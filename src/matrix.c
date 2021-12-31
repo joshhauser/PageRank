@@ -25,7 +25,7 @@ double compute_norm(Vector vector) {
  * @param matrix the matrix to allocate
  */
 void allocate_matrix(Matrix* matrix) {
-	allocate_array(&matrix->array, matrix->lines_number, matrix->colums_number);
+	callocate_array(&matrix->array, matrix->lines_number, matrix->colums_number);
 }
 
 /**
@@ -53,6 +53,24 @@ void allocate_array(double*** array, int lines_number, int colums_number) {
 		(*array)[i] = (double*) malloc(colums_number * sizeof(double));
 	}
 }
+
+/**
+ * @brief Dynamic allocation for array using calloc
+ * 
+ * @param array the array to allocate
+ * @param lines_number the lines count
+ * @param colums_number the columns count
+ */
+void callocate_array(double*** array, int lines_number, int colums_number) {
+	int i;
+
+	*array = (double**) malloc(lines_number * sizeof(double*));
+
+	for (i = 0; i < lines_number; i++) {
+		(*array)[i] = (double*) calloc(colums_number, sizeof(double));
+	}
+}
+
 
 /**
  * @brief Free an array
@@ -113,7 +131,7 @@ Matrix dot_matrices(Matrix matrix1, Matrix matrix2) {
 	return result;
 }
 
-Vector dot(Matrix matrix, Vector vector) {
+Vector matrix_dot_vector(Matrix matrix, Vector vector) {
 	Vector result;
 	int i, j;
 	double val = 0;
@@ -134,4 +152,38 @@ Vector dot(Matrix matrix, Vector vector) {
 	}
 
 	return result;
+}
+
+/**
+ * @brief 
+ * 
+ */
+Matrix graph_to_matrix(Graph graph) {
+	Matrix matrix;
+  matrix.colums_number = matrix.lines_number = graph.vertices_count;
+  allocate_matrix(&matrix);
+
+	int i, j;
+	for (i = 0; i < graph.vertices_count; i++) {
+		for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
+			matrix.array[graph.vertices[i].neighbours[j].label][i] = 1.0 / (double) graph.vertices[i].neighbours_count;
+		}
+	}
+
+	return matrix;
+}
+
+// Display matrices
+void display_matrix(Matrix matrix) {
+	int i, j;
+
+	for (i = 0; i < matrix.lines_number; i++) {
+		for (j = 0; j < matrix.colums_number; j++) {
+			if (j == 0) printf("(");
+			printf("%.2f", matrix.array[i][j]);
+			if (j == (matrix.colums_number - 1)) printf(")");
+			else printf("   ");
+		}
+		printf("\n");
+	}
 }

@@ -7,8 +7,8 @@
 
 int main(int argc, char *argv[]) {
   char *file_path = NULL;
-  int epsilon = 0.0000001;
-  int damping_factor = 0.85;
+  /* int epsilon = 0.0000001;
+  int damping_factor = 0.85; */
 
   if (argc > 1) {
     file_path = argv[1];
@@ -18,5 +18,10 @@ int main(int argc, char *argv[]) {
   }
 
   Graph graph = get_graph_from_file(file_path);
-  printf("nodes : %d\n", graph.vertices_count);
+  normalize_graph(&graph);
+  //display_graph(graph);
+  Matrix matrix = graph_to_matrix(graph);
+  display_matrix(matrix);
+
+  return 0;
 }

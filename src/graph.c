@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../headers/utils.h"
 #include "../headers/graph.h"
-
+#include "../headers/utils.h"
 
 /**
  * @brief Get the graph from file object
@@ -39,7 +39,7 @@ Graph get_graph_from_file(char *file_path) {
   while ((read = getline(&line, &length, fp)) != -1) {
     // Scan first vertice label
     sscanf(&line[0], "%d", &value);
-    int from_index = index_in_array(graph.vertices, graph.vertices_count, value);
+    int from_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
     
     // FIRST VERTICE
     if (from_index == -1) {
@@ -63,7 +63,7 @@ Graph get_graph_from_file(char *file_path) {
     // Scan second vertice label
     sscanf(&line[bs_index+1], "%d", &value);
 
-    int to_index = index_in_array(graph.vertices, graph.vertices_count, value);
+    int to_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
     
     // SECOND VERTICE
     if (to_index == -1) {
@@ -106,20 +106,21 @@ Graph get_graph_from_file(char *file_path) {
 void normalize_graph(Graph *graph) {
   int i, j, k, old_label;
   Vertice vertice;
+  int *updated_vertices = (int*) malloc(graph->vertices_count * sizeof(int));
 
   for (i = 0; i < graph->vertices_count; i++) {
-    old_label = graph[i].vertices->label;
+    old_label = graph->vertices[i].label;
     graph->vertices[i].label = i;
+    updated_vertices[i] = old_label;
+  }
 
-    // Search and replace all occurrences of old_label
-    for (j = 0; j < graph->vertices_count; i++) {
-      for (k = 0; k < graph->vertices[i].neighbours_count; k++) {
-        vertice = graph->vertices[j].neighbours[k];
-        if (vertice.label == old_label) vertice.label = i;
-      }
+  for (i = 0; i < graph->vertices_count; i++) {
+    for (j = 0; j < graph->vertices[i].neighbours_count; j++) {
+      k = index_in_int_array(updated_vertices, graph->vertices_count, graph->vertices[i].neighbours[j].label);
+      graph->vertices[i].neighbours[j].label = k;
     }
   }
-}
+} 
 
 /**
  * @brief Display graph info 
