@@ -152,3 +152,33 @@ void display_graph(Graph graph) {
     printf("-------------------------------------------------------\n");
   }
 }
+
+int graph_to_file(Graph graph, char *file_path) {
+  int i, j, written_chars_count;
+  FILE *file_pointer = fopen(file_path, "w");
+
+  if (file_pointer == NULL) {
+    printf("Impossible d'ouvrir le fichier %s\n", file_path);
+    exit(EXIT_FAILURE);
+  }
+
+  for (i = 0; i < graph.vertices_count; i++) {
+    fprintf(file_pointer, "Vertice N°%d\n", graph.vertices[i].label);
+    fputs("---------------\n", file_pointer);
+    fprintf(file_pointer, "Neighbours count: %d\n", graph.vertices[i].neighbours_count);
+    fputs("Neighbours list: ", file_pointer);
+    
+    for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
+      written_chars_count = fprintf(file_pointer, "%d", graph.vertices[i].neighbours[j].label);
+      if (j < graph.vertices[i].neighbours_count - 1)
+        fputs(" ", file_pointer);
+    } 
+
+    fputs("\n__________________________\n", file_pointer);
+  }
+ 
+
+  fclose(file_pointer);
+
+  return written_chars_count;
+}

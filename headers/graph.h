@@ -17,5 +17,5 @@ struct t_graph {
 Graph get_graph_from_file(char *file_path);
 void normalize_graph(Graph *graph);
 void display_graph(Graph graph);
-
+int graph_to_file(Graph graph, char *file_path);
 #endif

@@ -29,4 +29,6 @@ Vector matrix_dot_vector(Matrix matrix, Vector vector);
 Matrix graph_to_matrix(Graph graph);
 void display_matrix(Matrix matrix);
 void double_divide_vector(Vector *vector, double x);
+int vector_to_file(Vector vector, char *file_path);
+int matrix_to_file(Matrix matrix, char *file_path);
 #endif

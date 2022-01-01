@@ -11,7 +11,7 @@
  * TODO:
  * - add more comments
  * - check for docstrings
- * - code function for file output
+ * - clean the code
  */
 
 int main(int argc, char *argv[]) {
@@ -33,11 +33,13 @@ int main(int argc, char *argv[]) {
 
   Graph graph = get_graph_from_file(file_path);
   normalize_graph(&graph);
-  //display_graph(graph);
+  graph_to_file(graph, "output/normalized_graph.txt");
+
   Matrix matrix = graph_to_matrix(graph);
-  //display_matrix(matrix);
+  matrix_to_file(matrix, "output/matrix.txt");
 
   Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations);
+  vector_to_file(eigen_vector, "output/eigen_vector.txt");
 
   int i;
   for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));

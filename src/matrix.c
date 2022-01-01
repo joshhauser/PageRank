@@ -194,3 +194,48 @@ void double_divide_vector(Vector *vector, double x) {
 	for (i = 0; i < vector->length; i++)
 		vector->array[i] /= x;
 }
+
+int vector_to_file(Vector vector, char *file_path) {
+	FILE *file_pointer = fopen(file_path, "w");
+	int written_chars_count = 0;
+
+	if (file_pointer == NULL)
+	{
+		printf("Impossible d'ouvrir le fichier %s\n", file_path);
+		exit(EXIT_FAILURE);
+	}
+
+	int i;
+	for (i = 0; i < vector.length; i++)
+		written_chars_count = fprintf(file_pointer, "%lf\n", vector.array[i]);
+
+	fclose(file_pointer);
+
+	return written_chars_count;
+}
+
+int matrix_to_file(Matrix matrix, char *file_path) {
+	FILE *file_pointer = fopen(file_path, "w");
+	int written_chars_count = 0;
+
+	if (file_pointer == NULL)
+	{
+		printf("Impossible d'ouvrir le fichier %s\n", file_path);
+		exit(EXIT_FAILURE);
+	}
+
+	int i, j;
+	for (i = 0; i < matrix.lines_number; i++) {
+		for (j = 0; j < matrix.colums_number; j++) {
+			fprintf(file_pointer, "%lf", matrix.array[i][j]);
+			if (j < matrix.colums_number - 1)
+				fputs(" ", file_pointer);
+		}
+
+		fputs("\n", file_pointer);
+	}
+
+	fclose(file_pointer);
+
+	return written_chars_count;
+}
