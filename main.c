@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
   double epsilon = 0.000001;
   double damping_factor = 0.85;
   int max_iterations = 100;
+  int iterations_count = 0;
 
   // Get args from command line
   if (argc == 4) {
@@ -41,8 +42,10 @@ int main(int argc, char *argv[]) {
   Matrix matrix = graph_to_matrix(graph);
   matrix_to_file(matrix, "output/matrix.txt");
 
-  Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations);
+  Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
   vector_to_file(eigen_vector, "output/eigen_vector.txt");
+
+  write_perf(damping_factor, iterations_count);
 
   int i;
   for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));
