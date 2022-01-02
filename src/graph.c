@@ -9,8 +9,6 @@
  * @brief Get the graph from file object
  * 
  * @param file_path the path of the file to read
- * @param vertices_count the number of vertices, used to allcate
- * the vertices array
  * @return Graph extracted from file
  */
 Graph get_graph_from_file(char *file_path) {
@@ -79,16 +77,12 @@ Graph get_graph_from_file(char *file_path) {
     else {
       to = graph.vertices[to_index];
     }
-
     // Add neighbours
     from.neighbours[from.neighbours_count - 1] = to;
-
     // Add or update first vertice
     graph.vertices[from_index] = from;
-
     // Add or update second vertice
     graph.vertices[to_index] = to;
-
   }
 
   fclose(fp);
@@ -153,6 +147,14 @@ void display_graph(Graph graph) {
   }
 }
 
+/**
+ * @brief Write graph data in a file
+ * 
+ * @param graph the graph used to write the file
+ * @param file_path the path of the file to write
+ * @return int that is -1 for error, otherwise
+ * number of written chars
+ */
 int graph_to_file(Graph graph, char *file_path) {
   int i, j, written_chars_count;
   FILE *file_pointer = fopen(file_path, "w");

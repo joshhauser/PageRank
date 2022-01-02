@@ -102,7 +102,8 @@ void free_matrix(Matrix* matrix) {
  * 
  * @param matrix1 
  * @param matrix2 
- * @return Matrix 
+ * @return a matrix that is the result
+ * of matrix1 * matrix2
  */
 Matrix dot_matrices(Matrix matrix1, Matrix matrix2) {
 	/* Condition: la première matrice doit avoir un nombre de colonnes égal
@@ -131,6 +132,14 @@ Matrix dot_matrices(Matrix matrix1, Matrix matrix2) {
 	return result;
 }
 
+/**
+ * @brief Multiply a vector by a matrix
+ * 
+ * @param matrix a matrix
+ * @param vector a vector
+ * @return a vector that is the result of
+ * matrix * vector
+ */
 Vector matrix_dot_vector(Matrix matrix, Vector vector) {
 	Vector result;
 	int i, j;
@@ -155,8 +164,12 @@ Vector matrix_dot_vector(Matrix matrix, Vector vector) {
 }
 
 /**
- * @brief 
+ * @brief Use a graph to build a matrix
+ * that contains probability
+ * for each possible path in the graph
  * 
+ * @param graph the graph used to build the matrix
+ * @return the built matrix
  */
 Matrix graph_to_matrix(Graph graph) {
 	Matrix matrix;
@@ -173,7 +186,11 @@ Matrix graph_to_matrix(Graph graph) {
 	return matrix;
 }
 
-// Display matrices
+/**
+ * @brief Display matrix infp
+ * 
+ * @param matrix the matrix to display
+ */
 void display_matrix(Matrix matrix) {
 	int i, j;
 
@@ -188,6 +205,12 @@ void display_matrix(Matrix matrix) {
 	}
 }
 
+/**
+ * @brief Divide vector's components by a double
+ * 
+ * @param vector a pointer on the vector to divide
+ * @param x the divisor
+ */
 void double_divide_vector(Vector *vector, double x) {
 	int i;
 
@@ -195,6 +218,14 @@ void double_divide_vector(Vector *vector, double x) {
 		vector->array[i] /= x;
 }
 
+/**
+ * @brief Write vector components to a file
+ * 
+ * @param vector the vector to write in a file
+ * @param file_path the path of the file to write
+ * @return int that is -1 for error, otherwise
+ * number of written chars
+ */
 int vector_to_file(Vector vector, char *file_path) {
 	FILE *file_pointer = fopen(file_path, "w");
 	int written_chars_count = 0;
@@ -214,6 +245,14 @@ int vector_to_file(Vector vector, char *file_path) {
 	return written_chars_count;
 }
 
+/**
+ * @brief Write matrix components to a file
+ * 
+ * @param matrix the matrix to write in a file
+ * @param file_path the path of the file to write
+ * @return int that is -1 for error, otherwise
+ * number of written chars
+ */
 int matrix_to_file(Matrix matrix, char *file_path) {
 	FILE *file_pointer = fopen(file_path, "w");
 	int written_chars_count = 0;
