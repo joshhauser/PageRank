@@ -10,16 +10,19 @@
 /**
  * TODO:
  * - add more comments
- * - check for docstrings
  * - clean the code
+ * - Make more complete output for performance
+ * curves generation
  */
 
 int main(int argc, char *argv[]) {
+  // Default parameters
   char *file_path = NULL;
   double epsilon = 0.000001;
   double damping_factor = 0.85;
   int max_iterations = 100;
 
+  // Get args from command line
   if (argc == 4) {
     file_path = argv[1];
     damping_factor = atof(argv[2]);

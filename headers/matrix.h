@@ -24,11 +24,12 @@ void allocate_array(double*** array, int lines_number, int colums_number);
 void callocate_array(double*** array, int lines_number, int colums_number);
 void free_array(double** array, int lines_number);
 void free_matrix(Matrix* matrix);
-Matrix dot_matrices(Matrix matrix1, Matrix matrix2);
-Vector matrix_dot_vector(Matrix matrix, Vector vector);
-Matrix graph_to_matrix(Graph graph);
 void display_matrix(Matrix matrix);
 void double_divide_vector(Vector *vector, double x);
+Matrix dot_matrices(Matrix matrix1, Matrix matrix2);
+Matrix graph_to_matrix(Graph graph);
+Vector matrix_dot_vector(Matrix matrix, Vector vector);
 int vector_to_file(Vector vector, char *file_path);
 int matrix_to_file(Matrix matrix, char *file_path);
+
 #endif
