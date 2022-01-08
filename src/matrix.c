@@ -145,7 +145,7 @@ Vector matrix_dot_vector(Matrix matrix, Vector vector) {
 	int i, j;
 	double val = 0;
 
-	if (matrix.colums_number != vector.length) printf("Impossible d'effectuer le produit.\n");
+	if (matrix.lines_number != vector.length) printf("Impossible d'effectuer le produit.\n");
 
 	result.length = vector.length;
 
