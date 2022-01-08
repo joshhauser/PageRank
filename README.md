@@ -33,5 +33,5 @@ Execute the program, with or without args:
 
 ## Useful links
 
-- https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af
-- https://en.wikipedia.org/wiki/PageRank
+- <a href="https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af" target="_blank">https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af</a>
+- <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank">https://en.wikipedia.org/wiki/PageRank</a>
