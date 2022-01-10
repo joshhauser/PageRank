@@ -36,11 +36,14 @@ int main(int argc, char *argv[]) {
   }
 
   Graph graph = get_graph_from_file(file_path);
+  qsort(graph.vertices, graph.vertices_count, sizeof(Vertice), compare_vertices_label);
   normalize_graph(&graph);
   graph_to_file(graph, "output/normalized_graph.txt");
+  display_graph(graph);
 
   Matrix matrix = graph_to_matrix(graph);
   matrix_to_file(matrix, "output/matrix.txt");
+  display_matrix(matrix);
 
   Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
   vector_to_file(eigen_vector, "output/eigen_vector.txt");

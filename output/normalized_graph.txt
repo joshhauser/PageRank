@@ -1,85 +1,20 @@
 Vertice N°0
 ---------------
-Neighbours count: 5
-Neighbours list: 1 2 3 4 5
+Neighbours count: 3
+Neighbours list: 1 2 3
 __________________________
 Vertice N°1
 ---------------
-Neighbours count: 0
-Neighbours list: 
+Neighbours count: 2
+Neighbours list: 2 3
 __________________________
 Vertice N°2
 ---------------
-Neighbours count: 0
-Neighbours list: 
+Neighbours count: 1
+Neighbours list: 0
 __________________________
 Vertice N°3
 ---------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°4
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°5
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°6
----------------
-Neighbours count: 11
-Neighbours list: 7 0 8 9 10 11 12 13 14 15 16
-__________________________
-Vertice N°7
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°8
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°9
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°10
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°11
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°12
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°13
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°14
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°15
----------------
-Neighbours count: 0
-Neighbours list: 
-__________________________
-Vertice N°16
----------------
-Neighbours count: 0
-Neighbours list: 
+Neighbours count: 2
+Neighbours list: 0 2
 __________________________

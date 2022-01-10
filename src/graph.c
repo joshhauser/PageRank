@@ -31,7 +31,7 @@ Graph get_graph_from_file(char *file_path) {
 
   graph.vertices_count = 0;
   // Allocate graph
-  graph.vertices = (Vertice*) malloc(sizeof(Vertice));
+  graph.vertices = (Vertice*) malloc(0);
   
   // Read graph file
   while ((read = getline(&line, &length, fp)) != -1) {
@@ -43,7 +43,7 @@ Graph get_graph_from_file(char *file_path) {
     if (from_index == -1) {
       from.label = value;
       from.neighbours_count = 1;
-      from.neighbours = (Vertice *) malloc(sizeof(Vertice));
+      from.neighbours = (Vertice*) malloc(sizeof(Vertice));
       from_index = i;
       i++;
       graph.vertices_count++;
@@ -57,7 +57,6 @@ Graph get_graph_from_file(char *file_path) {
 
     // Get index of blank space that separates vertices in current line
     int bs_index = (int)(strchr(line, ' ') - line);
-
     // Scan second vertice label
     sscanf(&line[bs_index+1], "%d", &value);
 
@@ -69,20 +68,20 @@ Graph get_graph_from_file(char *file_path) {
       to.neighbours_count = 0; // The graph is supposed to be oriented
       to.neighbours = (Vertice*) malloc(0);
       to_index = i;
-
       i++;
       graph.vertices_count++;
       graph.vertices = (Vertice*) realloc(graph.vertices, graph.vertices_count * sizeof(Vertice));
+      // Add or update second vertice
+      graph.vertices[to_index] = to;
     }
     else {
       to = graph.vertices[to_index];
     }
+
     // Add neighbours
     from.neighbours[from.neighbours_count - 1] = to;
     // Add or update first vertice
     graph.vertices[from_index] = from;
-    // Add or update second vertice
-    graph.vertices[to_index] = to;
   }
 
   fclose(fp);
@@ -183,4 +182,28 @@ int graph_to_file(Graph graph, char *file_path) {
   fclose(file_pointer);
 
   return written_chars_count;
+}
+
+void sort_graph_vertices_list(Graph* graph) {
+  Vertice tmp;
+  Vertice vertice_to_move;
+
+  int i;
+
+  for (i = 0; i < graph->vertices_count; i++) {
+    if (graph->vertices[i].label != i) {
+      vertice_to_move = graph->vertices[i];
+      tmp = graph->vertices[vertice_to_move.label];
+      graph->vertices[vertice_to_move.label] = vertice_to_move;
+      graph->vertices[i] = tmp;
+    }
+  }
+}
+
+
+int compare_vertices_label(const void* first, const void* second) {
+  Vertice first_vertice = * (const Vertice*) first;
+  Vertice second_vertice = * (const Vertice*) second;
+
+  return (first_vertice.label - second_vertice.label);
 }
