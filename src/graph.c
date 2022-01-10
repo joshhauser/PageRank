@@ -184,23 +184,13 @@ int graph_to_file(Graph graph, char *file_path) {
   return written_chars_count;
 }
 
-void sort_graph_vertices_list(Graph* graph) {
-  Vertice tmp;
-  Vertice vertice_to_move;
-
-  int i;
-
-  for (i = 0; i < graph->vertices_count; i++) {
-    if (graph->vertices[i].label != i) {
-      vertice_to_move = graph->vertices[i];
-      tmp = graph->vertices[vertice_to_move.label];
-      graph->vertices[vertice_to_move.label] = vertice_to_move;
-      graph->vertices[i] = tmp;
-    }
-  }
-}
-
-
+/**
+ * @brief Compare vertices label to sort vertices
+ * 
+ * @param first first vertice
+ * @param second second vertice
+ * @return int
+ */
 int compare_vertices_label(const void* first, const void* second) {
   Vertice first_vertice = * (const Vertice*) first;
   Vertice second_vertice = * (const Vertice*) second;

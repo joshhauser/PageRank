@@ -16,15 +16,16 @@
  */
 Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iterations, int *iterations_count) {
   int nodes_count = matrix.colums_number;
-  // Initial vector
+  // Initial vector and previous vector
   Vector v, previous_v;
+  // Computing error
   double err;
+  int i,j;
+  // Vector norm
+  double norm;
 
   v.length = nodes_count;
   allocate_vector(&v);
-  int i,j;
-  double norm;
-  
 
   for (i = 0; i < nodes_count; i++)
     v.array[i] = 1.0 / (double) nodes_count;
@@ -35,13 +36,11 @@ Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iteration
     /* norm = compute_norm(v);
     double_divide_vector(&v, norm);  */ 
 
-    for (j = 0; j < nodes_count; j++)
-      v.array[j] = v.array[j] * d + (1.0 - d) / (double) nodes_count;
-
     err = 0;
-
-    for (j = 0; j < nodes_count; j++)
+    for (j = 0; j < nodes_count; j++) {
+      v.array[j] = v.array[j] * d + (1.0 - d) / (double) nodes_count;
       err += fabs(v.array[j] - previous_v.array[j]);
+    }
 
     *iterations_count = i;
 
@@ -53,6 +52,18 @@ Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iteration
   return v;
 }
 
+/**
+ * @brief Write the number of iterations
+ * necessary to find the eigen vector
+ * for a given damping factor
+ * 
+ * @param damping_factor the damping factor used for
+ * pagerank algorithm
+ * @param iterations number of iterations necessary
+ * for pagerank algorithm to return the eigen vector
+ * @return int -1 in case of errors, otherwise the
+ * number of written characcters
+ */
 int write_perf(double damping_factor, int iterations) {
   char *file_path = "output/performance.txt";
   FILE *file_pointer = fopen(file_path, "a");
