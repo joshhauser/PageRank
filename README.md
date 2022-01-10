@@ -1,6 +1,6 @@
 # PageRank
 
-This project is a simple implementation of Page Rank algorithm, using C.
+This project is a simple implementation of PageRank algorithm, using C.
 
 ## Usage
 Clone the repo:
@@ -25,6 +25,22 @@ Execute the program, with or without args:
 ./pagerank # default parameters are hard coded 
 ```
 
+### Input
+The input must be a file that represents an oriented graph as below:
+```
+1 2
+1 3
+1 4
+2 3
+2 4
+3 1
+4 1
+4 3
+```
+![Demo graph](demo_graph.png)
+
+Each line is a link between two vertices : the first vertice is the starting point, and the second one is the ending point.
+
 ### Output
 3 output files are created by this program. Their paths are hard coded!
 - `output/normalized_graph.txt`: contains the "normalized graph" data, i.e. list of orderly vertices labels
@@ -33,5 +49,5 @@ Execute the program, with or without args:
 
 ## Useful links
 
-- <a href="https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af" target="_blank">https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af</a>
-- <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank">https://en.wikipedia.org/wiki/PageRank</a>
+- <a href="https://towardsdatascience.com/pagerank-algorithm-fully-explained-dc794184b4af" target="_blank">Article about PageRank, written by Amrani Amine on "towards data science"</a>
+- <a href="https://en.wikipedia.org/wiki/PageRank" target="_blank">Wikipedia english page about PageRank</a>
