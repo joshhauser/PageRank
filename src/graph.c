@@ -18,9 +18,8 @@ Graph get_graph_from_file(char *file_path) {
   size_t length = 0;
   ssize_t read = 0;
   int i = 0;
-  int value;
-  Vertice from;
-  Vertice to;
+  int value, from_index, to_index, bs_index;
+  Vertice from, to;
 
   // Open graph file
   fp = fopen(file_path, "r");
@@ -37,13 +36,13 @@ Graph get_graph_from_file(char *file_path) {
   while ((read = getline(&line, &length, fp)) != -1) {
     // Scan first vertice label
     sscanf(&line[0], "%d", &value);
-    int from_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
-    
+    from_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
+   
     // FIRST VERTICE
     if (from_index == -1) {
       from.label = value;
       from.neighbours_count = 1;
-      from.neighbours = (Vertice*) malloc(sizeof(Vertice));
+      from.neighbours = (int*) malloc(sizeof(Vertice));
       from_index = i;
       i++;
       graph.vertices_count++;
@@ -52,21 +51,20 @@ Graph get_graph_from_file(char *file_path) {
     else {
       from = graph.vertices[from_index];
       from.neighbours_count++;
-      from.neighbours = (Vertice*) realloc(from.neighbours, from.neighbours_count * sizeof(Vertice));
+      from.neighbours = (int*) realloc(from.neighbours, from.neighbours_count * sizeof(Vertice));
     }
 
     // Get index of blank space that separates vertices in current line
-    int bs_index = (int)(strchr(line, ' ') - line);
+    bs_index = (int)(strchr(line, ' ') - line);
     // Scan second vertice label
     sscanf(&line[bs_index+1], "%d", &value);
-
-    int to_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
+    to_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
     
     // SECOND VERTICE
     if (to_index == -1) {
       to.label = value;
       to.neighbours_count = 0; // The graph is supposed to be oriented
-      to.neighbours = (Vertice*) malloc(0);
+      to.neighbours = (int*) malloc(0);
       to_index = i;
       i++;
       graph.vertices_count++;
@@ -79,7 +77,7 @@ Graph get_graph_from_file(char *file_path) {
     }
 
     // Add neighbours
-    from.neighbours[from.neighbours_count - 1] = to;
+    from.neighbours[from.neighbours_count - 1] = to.label;
     // Add or update first vertice
     graph.vertices[from_index] = from;
   }
@@ -108,8 +106,8 @@ void normalize_graph(Graph *graph) {
 
   for (i = 0; i < graph->vertices_count; i++) {
     for (j = 0; j < graph->vertices[i].neighbours_count; j++) {
-      k = index_in_int_array(updated_vertices, graph->vertices_count, graph->vertices[i].neighbours[j].label);
-      graph->vertices[i].neighbours[j].label = k;
+      k = index_in_int_array(updated_vertices, graph->vertices_count, graph->vertices[i].neighbours[j]);
+      graph->vertices[i].neighbours[j] = k;
     }
   }
 } 
@@ -136,7 +134,7 @@ void display_graph(Graph graph) {
       printf("Neighbours list : ");
 
       for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-        printf("%d ", graph.vertices[i].neighbours[j].label);
+        printf("%d ", graph.vertices[i].neighbours[j]);
       }
       
       printf("\n");
@@ -170,7 +168,7 @@ int graph_to_file(Graph graph, char *file_path) {
     fputs("Neighbours list: ", file_pointer);
     
     for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-      written_chars_count = fprintf(file_pointer, "%d", graph.vertices[i].neighbours[j].label);
+      written_chars_count = fprintf(file_pointer, "%d", graph.vertices[i].neighbours[j]);
       if (j < graph.vertices[i].neighbours_count - 1)
         fputs(" ", file_pointer);
     } 
@@ -196,4 +194,14 @@ int compare_vertices_label(const void* first, const void* second) {
   Vertice second_vertice = * (const Vertice*) second;
 
   return (first_vertice.label - second_vertice.label);
+}
+
+void free_graph(Graph* graph) {
+  int i;
+
+  for (i = 0; i < graph->vertices_count; i++) {
+    free(graph->vertices[i].neighbours);
+    free(&graph->vertices[i]);
+  }
+
 }

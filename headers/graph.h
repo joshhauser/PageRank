@@ -4,7 +4,7 @@
 typedef struct t_vertice Vertice;
 struct t_vertice {
   int label;
-  Vertice *neighbours;
+  int *neighbours;
   int neighbours_count;
 };
 

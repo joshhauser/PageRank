@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
   qsort(graph.vertices, graph.vertices_count, sizeof(Vertice), compare_vertices_label);
   normalize_graph(&graph);
   graph_to_file(graph, "output/normalized_graph.txt");
-  display_graph(graph);
+  //display_graph(graph);
 
   Matrix matrix = graph_to_matrix(graph);
   matrix_to_file(matrix, "output/matrix.txt");

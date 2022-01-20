@@ -179,7 +179,7 @@ Matrix graph_to_matrix(Graph graph) {
 	int i, j;
 	for (i = 0; i < graph.vertices_count; i++) {
 		for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-			matrix.array[graph.vertices[i].neighbours[j].label][i] = 1.0 / (double) graph.vertices[i].neighbours_count;
+			matrix.array[graph.vertices[i].neighbours[j]][i] = 1.0 / (double) graph.vertices[i].neighbours_count;
 		}
 	}
 
