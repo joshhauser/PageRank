@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <unistd.h>
+#include <time.h>
 #include "./headers/matrix.h"
 #include "./headers/graph.h"
 #include "./headers/utils.h"
@@ -22,6 +23,8 @@ int main(int argc, char *argv[]) {
   double damping_factor = 0.85;
   int max_iterations = 100;
   int iterations_count = 0;
+  clock_t begin, end;
+  double elapsed_time = 0.0;
 
   // Get args from command line
   if (argc == 4) {
@@ -45,10 +48,15 @@ int main(int argc, char *argv[]) {
   matrix_to_file(matrix, "output/matrix.txt");
   display_matrix(matrix);
 
+  begin = clock();
   Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
+  end = clock();
+  
   vector_to_file(eigen_vector, "output/eigen_vector.txt");
 
-  write_perf(damping_factor, iterations_count);
+  elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
+  
+  write_perf(damping_factor, elapsed_time, graph.vertices_count);
 
   int i;
   for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));

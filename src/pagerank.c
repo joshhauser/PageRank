@@ -64,7 +64,7 @@ Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iteration
  * @return int -1 in case of errors, otherwise the
  * number of written characcters
  */
-int write_perf(double damping_factor, int iterations) {
+int write_perf(double damping_factor, double elapsed_time, int nodes_count) {
   char *file_path = "output/performance.txt";
   FILE *file_pointer = fopen(file_path, "a");
   int written_chars_count = 0;
@@ -74,7 +74,7 @@ int write_perf(double damping_factor, int iterations) {
     exit(EXIT_FAILURE);
   }
 
-  written_chars_count = fprintf(file_pointer, "%lf; %d\n", damping_factor, iterations);
+  written_chars_count = fprintf(file_pointer, "%d; %lf; %lf\n", nodes_count, damping_factor, elapsed_time);
   fclose(file_pointer);
 
   return written_chars_count;
