@@ -201,7 +201,7 @@ void free_graph(Graph* graph) {
 
   for (i = 0; i < graph->vertices_count; i++) {
     free(graph->vertices[i].neighbours);
-    free(&graph->vertices[i]);
   }
 
+  free(graph->vertices);
 }

@@ -5,5 +5,6 @@
 
 int index_in_vertices_array(Vertice *array, int array_length, int searched);
 int index_in_int_array(int *array, int array_length, int searched);
+int compare_int(const void* first, const void* second);
 
 #endif

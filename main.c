@@ -8,13 +8,6 @@
 #include "./headers/utils.h"
 #include "./headers/pagerank.h"
 
-/**
- * TODO:
- * - add more comments
- * - clean the code
- * - Make more complete output for performance
- * curves generation
- */
 
 int main(int argc, char *argv[]) {
   // Default parameters
@@ -25,6 +18,7 @@ int main(int argc, char *argv[]) {
   int iterations_count = 0;
   clock_t begin, end;
   double elapsed_time = 0.0;
+  int vertices_count = 0;
 
   // Get args from command line
   if (argc == 4) {
@@ -39,27 +33,48 @@ int main(int argc, char *argv[]) {
   }
 
   Graph graph = get_graph_from_file(file_path);
+  vertices_count = graph.vertices_count;
   qsort(graph.vertices, graph.vertices_count, sizeof(Vertice), compare_vertices_label);
   normalize_graph(&graph);
-  graph_to_file(graph, "output/normalized_graph.txt");
   //display_graph(graph);
 
   Matrix matrix = graph_to_matrix(graph);
-  matrix_to_file(matrix, "output/matrix.txt");
-  display_matrix(matrix);
+  free_graph(&graph);
+
+  /*********************************************************************************/
+  float** triplets = (float**) malloc(sizeof(float*));
+  int i, j;
+
+  for (i = 0; i < graph.vertices_count; i++) {
+    for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
+      triplets[j] = malloc(3*sizeof(float));
+      triplets[j][0] = graph.vertices[i].neighbours[j];
+      triplets[j][1] = graph.vertices[i].label;
+      triplets[j][2] = 1.0 / graph.vertices[i].neighbours_count;
+
+      if (j < graph.vertices[i].neighbours_count - 1) {
+        triplets = (float**) realloc(triplets, (j+1) * sizeof(float*));
+      }
+    }
+  }
+  /*********************************************************************************/
+
+  //display_matrix(matrix);
 
   begin = clock();
   Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
   end = clock();
+
+  free_matrix(&matrix);
   
   vector_to_file(eigen_vector, "output/eigen_vector.txt");
+  free(eigen_vector.array);
 
   elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
   
-  write_perf(damping_factor, elapsed_time, graph.vertices_count);
+  write_perf(damping_factor, elapsed_time, vertices_count);
 
-  int i;
-  for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));
+  //for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));
 
   return 0;
 }

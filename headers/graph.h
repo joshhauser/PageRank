@@ -19,4 +19,5 @@ void normalize_graph(Graph *graph);
 void display_graph(Graph graph);
 int graph_to_file(Graph graph, char *file_path);
 int compare_vertices_label(const void* first, const void* second);
+void free_graph(Graph* graph);
 #endif

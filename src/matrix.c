@@ -238,7 +238,7 @@ int vector_to_file(Vector vector, char *file_path) {
 
 	int i;
 	for (i = 0; i < vector.length; i++)
-		written_chars_count = fprintf(file_pointer, "%lf\n", vector.array[i]);
+		written_chars_count = fprintf(file_pointer, "%.10lf\n", vector.array[i]);
 
 	fclose(file_pointer);
 

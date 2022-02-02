@@ -49,6 +49,8 @@ Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iteration
     }
   }
 
+  free(previous_v.array);
+
   return v;
 }
 

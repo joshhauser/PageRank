@@ -38,3 +38,10 @@ int index_in_int_array(int *array, int array_length, int searched) {
 
   return -1;
 }
+
+int compare_int(const void* first, const void* second) {
+  int a = *(const int*) first;
+  int b = *(const int*) second;
+
+  return (a - b);
+}

@@ -22,7 +22,7 @@ $(EXEC): $(OBJ)
 
 # Create each object file with its source file
 %.o: $(SRCDIR)/%.c
-	$(CC) $(CFLAGS) -Iheaders -c $< -o $@ -g
+	$(CC) $(CFLAGS) -Iheaders -c $< -o $@ -g -O3 -march=native
 
 # Delete objects file
 clean:
