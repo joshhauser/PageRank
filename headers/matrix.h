@@ -29,6 +29,7 @@ void double_divide_vector(Vector *vector, double x);
 Matrix dot_matrices(Matrix matrix1, Matrix matrix2);
 Matrix graph_to_matrix(Graph graph);
 Vector matrix_dot_vector(Matrix matrix, Vector vector);
+Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_length);
 int vector_to_file(Vector vector, char *file_path);
 int matrix_to_file(Matrix matrix, char *file_path);
 

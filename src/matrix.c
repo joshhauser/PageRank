@@ -278,3 +278,18 @@ int matrix_to_file(Matrix matrix, char *file_path) {
 
 	return written_chars_count;
 }
+
+Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_length) {
+	int i;
+	Vector result;
+	result.length = vector.length;
+	allocate_vector(&result);
+	
+	for (i = 0; i < result.length; i++) result.array[i] = 0.0;
+
+	for (i = 0; i < matrix_length; i++) {
+		result.array[(int) reduced_matrix[i][0]] += (reduced_matrix[i][2] * vector.array[(int) reduced_matrix[i][1]]);
+	}
+
+	return result;
+}

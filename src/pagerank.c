@@ -36,7 +36,7 @@ Vector apply_pagerank(Matrix matrix, double d, double epsilon, int max_iteration
     /* norm = compute_norm(v);
     double_divide_vector(&v, norm);  */ 
 
-    err = 0;
+    err = 0.0;
     for (j = 0; j < nodes_count; j++) {
       v.array[j] = v.array[j] * d + (1.0 - d) / (double) nodes_count;
       err += fabs(v.array[j] - previous_v.array[j]);
@@ -80,4 +80,46 @@ int write_perf(double damping_factor, double elapsed_time, int nodes_count) {
   fclose(file_pointer);
 
   return written_chars_count;
+}
+
+Vector pg(int matrix_length, int nodes_count, double** reduced_matrix, double damping_factor, double epsilon, int max_iterations, int *iterations_count) {
+  Vector eigen_vector, previous_ev, zeros;
+  double err;
+  int i,j;
+
+  eigen_vector.length = zeros.length = nodes_count;
+  allocate_vector(&eigen_vector);
+  allocate_vector(&zeros);
+
+  for (i = 0; i < eigen_vector.length; i++)
+    eigen_vector.array[i] = 1.0 / (double) nodes_count;
+
+  for (j = 0; j < max_iterations; j++) {
+    previous_ev = eigen_vector;
+    
+    /* for (i = 0; i < zeros.length; i++) 
+      zeros.array[i] = 0.0; */
+
+    eigen_vector = matrix_dot_vector_2(reduced_matrix, eigen_vector, matrix_length);
+    /* for (i = 0; i < zeros.length; i++) {
+      eigen_vector.array[i] = zeros.array[i];
+      printf("z: %lf, e: %lf, p: %lf\n", zeros.array[i], eigen_vector.array[i], previous_ev.array[i]);
+    }   */    
+
+    err = 0.0;
+    for (i = 0; i < nodes_count; i++) {
+      eigen_vector.array[i] = eigen_vector.array[i] * damping_factor + (1.0 - damping_factor) / (double) nodes_count;
+      err += fabs(eigen_vector.array[i] - previous_ev.array[i]);
+    }
+
+    *iterations_count = j;
+
+    if (err < epsilon) {
+      return eigen_vector;
+    }
+  }
+
+  free(previous_ev.array);
+
+  return eigen_vector;
 }

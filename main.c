@@ -39,28 +39,50 @@ int main(int argc, char *argv[]) {
   //display_graph(graph);
 
   Matrix matrix = graph_to_matrix(graph);
-  free_graph(&graph);
+  //free_graph(&graph);
 
   /*********************************************************************************/
-  float** triplets = (float**) malloc(sizeof(float*));
+  int array_size = 0;
+  double** triplets = (double**) malloc(array_size * sizeof(double*));
   int i, j;
 
   for (i = 0; i < graph.vertices_count; i++) {
     for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-      triplets[j] = malloc(3*sizeof(float));
-      triplets[j][0] = graph.vertices[i].neighbours[j];
-      triplets[j][1] = graph.vertices[i].label;
-      triplets[j][2] = 1.0 / graph.vertices[i].neighbours_count;
 
-      if (j < graph.vertices[i].neighbours_count - 1) {
-        triplets = (float**) realloc(triplets, (j+1) * sizeof(float*));
+      if (j < graph.vertices[i].neighbours_count) { 
+        array_size++;
+        triplets = (double**) realloc(triplets, array_size * sizeof(double*));
       }
+
+      triplets[array_size-1] = (double*) malloc(2 * sizeof(double));
+      triplets[array_size-1][0] = (double) graph.vertices[i].neighbours[j];
+      triplets[array_size - 1][1] = (double) graph.vertices[i].label;
+      triplets[array_size-1][2] = 1.0 / graph.vertices[i].neighbours_count;
     }
   }
+
+  begin = clock();
+  Vector eigen_vector = pg(array_size, graph.vertices_count, triplets, damping_factor, epsilon, max_iterations, &iterations_count);
+  //Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
+  
+  end = clock();
+  
+ /*  for (i = 0; i < graph.vertices_count; i++) {
+    free(triplets[i]);
+  } */
+
+  //free(triplets);
+
+  elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
+  
+  write_perf(damping_factor, elapsed_time, vertices_count);
+
+  vector_to_file(eigen_vector, "output/eigen_vector.txt");
+  free(eigen_vector.array);
   /*********************************************************************************/
-
+  return 0;
   //display_matrix(matrix);
-
+/* 
   begin = clock();
   Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
   end = clock();
@@ -76,5 +98,5 @@ int main(int argc, char *argv[]) {
 
   //for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));
 
-  return 0;
+  return 0; */
 }
