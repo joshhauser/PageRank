@@ -38,32 +38,9 @@ int main(int argc, char *argv[]) {
   normalize_graph(&graph);
   //display_graph(graph);
 
-  Matrix matrix = graph_to_matrix(graph);
-  //free_graph(&graph);
-
-  /*********************************************************************************/
-  int array_size = 0;
-  double** triplets = (double**) malloc(array_size * sizeof(double*));
-  int i, j;
-
-  for (i = 0; i < graph.vertices_count; i++) {
-    for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-
-      if (j < graph.vertices[i].neighbours_count) { 
-        array_size++;
-        triplets = (double**) realloc(triplets, array_size * sizeof(double*));
-      }
-
-      triplets[array_size-1] = (double*) malloc(2 * sizeof(double));
-      triplets[array_size-1][0] = (double) graph.vertices[i].neighbours[j];
-      triplets[array_size - 1][1] = (double) graph.vertices[i].label;
-      triplets[array_size-1][2] = 1.0 / graph.vertices[i].neighbours_count;
-    }
-  }
 
   begin = clock();
-  Vector eigen_vector = pg(array_size, graph.vertices_count, triplets, damping_factor, epsilon, max_iterations, &iterations_count);
-  //Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
+//  Vector eigen_vector = apply_pagerank(array_size, graph.vertices_count, triplets, damping_factor, epsilon, max_iterations, &iterations_count);
   
   end = clock();
   

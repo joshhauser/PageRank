@@ -89,104 +89,6 @@ void free_array(double** array, int lines_number) {
 }
 
 /**
- * @brief Free a matrix
- * 
- * @param matrix the matrix to free
- */
-void free_matrix(Matrix* matrix) {
-	free_array(matrix->array, matrix->lines_number);
-}
-
-/**
- * @brief Multiply two matrices
- * 
- * @param matrix1 
- * @param matrix2 
- * @return a matrix that is the result
- * of matrix1 * matrix2
- */
-Matrix dot_matrices(Matrix matrix1, Matrix matrix2) {
-	/* Condition: la première matrice doit avoir un nombre de colonnes égal
-	au nombre de lignes de la 2e matrice */
-	Matrix result;
-	int i, j, k;
-	double val = 0;
-
-	if (matrix1.colums_number != matrix2.lines_number)
-	printf("Impossible d'effectuer le produit\n");
-
-	result.lines_number = matrix1.lines_number;
-	result.colums_number = matrix2.colums_number;
-	allocate_matrix(&result);
-
-	for (i = 0; i < matrix2.colums_number; i++) {
-		for (k = 0; k < matrix1.lines_number; k++) {
-			for (j = 0; j < matrix1.colums_number; j++) {
-				val += matrix1.array[i][j] * matrix2.array[j][k];
-				result.array[i][k] = val;
-			}
-			val = 0;
-		}
-	}
-
-	return result;
-}
-
-/**
- * @brief Multiply a vector by a matrix
- * 
- * @param matrix a matrix
- * @param vector a vector
- * @return a vector that is the result of
- * matrix * vector
- */
-Vector matrix_dot_vector(Matrix matrix, Vector vector) {
-	Vector result;
-	int i, j;
-	double val = 0;
-
-	if (matrix.lines_number != vector.length) printf("Impossible d'effectuer le produit.\n");
-
-	result.length = vector.length;
-
-	allocate_vector(&result);
-
-	for (i = 0; i < matrix.colums_number; i++) {
-		for (j = 0; j < vector.length; j++) {
-			val += matrix.array[i][j] * vector.array[j];
-		}
-
-		result.array[i] = val;
-		val = 0;
-	}
-
-	return result;
-}
-
-/**
- * @brief Use a graph to build a matrix
- * that contains probability
- * for each possible path in the graph
- * 
- * @param graph the graph used to build the matrix
- * @return the built matrix
- */
-Matrix graph_to_matrix(Graph graph) {
-	Matrix matrix;
-  matrix.colums_number = matrix.lines_number = graph.vertices_count;
-  allocate_matrix(&matrix);
-
-	int i, j;
-	for (i = 0; i < graph.vertices_count; i++) {
-		for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
-			matrix.array[graph.vertices[i].neighbours[j]][i] = 1.0 / (double) graph.vertices[i].neighbours_count;
-		}
-	}
-
-	return matrix;
-}
-
-/**
  * @brief Display matrix infp
  * 
  * @param matrix the matrix to display
@@ -292,4 +194,48 @@ Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_le
 	}
 
 	return result;
+}
+
+/**
+ * @brief Transform a graph to a
+ * hollow matrix (without zeros)
+ * 
+ * @param graph the graph to transform
+ * @return a double** variable which is the matrix
+ */
+double** graph_to_matrix(Graph graph) {
+  int array_size = 0;
+  double** triplets = (double**) malloc(array_size * sizeof(double*));
+  int i, j;
+
+  for (i = 0; i < graph.vertices_count; i++) {
+    for (j = 0; j < graph.vertices[i].neighbours_count; j++) {
+
+      if (j < graph.vertices[i].neighbours_count) { 
+        array_size++;
+        triplets = (double**) realloc(triplets, array_size * sizeof(double*));
+      }
+
+      triplets[array_size-1] = (double*) malloc(2 * sizeof(double));
+      triplets[array_size-1][0] = (double) graph.vertices[i].neighbours[j];
+      triplets[array_size - 1][1] = (double) graph.vertices[i].label;
+      triplets[array_size-1][2] = 1.0 / graph.vertices[i].neighbours_count;
+    }
+  }
+
+  return triplets;
+}
+
+/**
+ * @brief Free a hollow matrix
+ * 
+ * @param matrix the matrix to free
+ * @param matrix_length the length of the matrix
+ */
+void free_matrix(double** matrix, int matrix_length) {
+	for (int i = 0; i < matrix_length; i++) {
+		free(matrix[i]);
+	}
+
+	free(matrix);
 }
