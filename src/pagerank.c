@@ -33,7 +33,7 @@ int write_perf(double damping_factor, double elapsed_time, int nodes_count) {
   return written_chars_count;
 }
 
-Vector apply_pagerank(int matrix_length, int nodes_count, double** reduced_matrix, double damping_factor, double epsilon, int max_iterations, int *iterations_count) {
+Vector apply_pagerank(int triplets_count, int nodes_count, double** reduced_matrix, double damping_factor, double epsilon, int max_iterations, int *iterations_count) {
   Vector eigen_vector, previous_ev, zeros;
   double err;
   int i,j;
@@ -51,7 +51,7 @@ Vector apply_pagerank(int matrix_length, int nodes_count, double** reduced_matri
     /* for (i = 0; i < zeros.length; i++) 
       zeros.array[i] = 0.0; */
 
-    eigen_vector = matrix_dot_vector_2(reduced_matrix, eigen_vector, matrix_length);
+    eigen_vector = matrix_dot_vector_2(reduced_matrix, eigen_vector, triplets_count);
     /* for (i = 0; i < zeros.length; i++) {
       eigen_vector.array[i] = zeros.array[i];
       printf("z: %lf, e: %lf, p: %lf\n", zeros.array[i], eigen_vector.array[i], previous_ev.array[i]);

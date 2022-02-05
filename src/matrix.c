@@ -181,7 +181,7 @@ int matrix_to_file(Matrix matrix, char *file_path) {
 	return written_chars_count;
 }
 
-Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_length) {
+Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int triplets_count) {
 	int i;
 	Vector result;
 	result.length = vector.length;
@@ -189,7 +189,7 @@ Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_le
 	
 	for (i = 0; i < result.length; i++) result.array[i] = 0.0;
 
-	for (i = 0; i < matrix_length; i++) {
+	for (i = 0; i < triplets_count; i++) {
 		result.array[(int) reduced_matrix[i][0]] += (reduced_matrix[i][2] * vector.array[(int) reduced_matrix[i][1]]);
 	}
 
@@ -197,13 +197,14 @@ Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int matrix_le
 }
 
 /**
- * @brief Transform a graph to a
- * hollow matrix (without zeros)
+ * @brief Transform a graph to an
+ * array of triplets [dest, src, probability]
  * 
  * @param graph the graph to transform
+ * @param triplets_count the number of triplets
  * @return a double** variable which is the matrix
  */
-double** graph_to_matrix(Graph graph) {
+double** graph_to_matrix(Graph graph, int* triplets_count) {
   int array_size = 0;
   double** triplets = (double**) malloc(array_size * sizeof(double*));
   int i, j;
@@ -216,26 +217,33 @@ double** graph_to_matrix(Graph graph) {
         triplets = (double**) realloc(triplets, array_size * sizeof(double*));
       }
 
-      triplets[array_size-1] = (double*) malloc(2 * sizeof(double));
-      triplets[array_size-1][0] = (double) graph.vertices[i].neighbours[j];
+			// Dynamic allocation
+      triplets[array_size - 1] = (double*) malloc(2 * sizeof(double));
+			// Destionation
+      triplets[array_size - 1][0] = (double) graph.vertices[i].neighbours[j];
+			// Source
       triplets[array_size - 1][1] = (double) graph.vertices[i].label;
-      triplets[array_size-1][2] = 1.0 / graph.vertices[i].neighbours_count;
+			// Probability to go from source to destination
+      triplets[array_size - 1][2] = 1.0 / graph.vertices[i].neighbours_count;
     }
   }
+
+
+	*triplets_count = array_size;
 
   return triplets;
 }
 
 /**
- * @brief Free a hollow matrix
+ * @brief Free an array of triplets
  * 
- * @param matrix the matrix to free
- * @param matrix_length the length of the matrix
+ * @param triplets the matrix to free
+ * @param triplets_count the length of the matrix
  */
-void free_matrix(double** matrix, int matrix_length) {
-	for (int i = 0; i < matrix_length; i++) {
-		free(matrix[i]);
+void free_triplets(double** triplets, int triplets_count) {
+	for (int i = 0; i < triplets_count; i++) {
+		free(triplets[i]);
 	}
 
-	free(matrix);
+	free(triplets);
 }

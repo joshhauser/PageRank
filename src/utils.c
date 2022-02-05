@@ -39,9 +39,20 @@ int index_in_int_array(int *array, int array_length, int searched) {
   return -1;
 }
 
-int compare_int(const void* first, const void* second) {
-  int a = *(const int*) first;
-  int b = *(const int*) second;
+/**
+ * @brief Function used in qsort()
+ * to sort an array of double
+ * by comparing two elements.
+ * Elements are sorted in reverse order.
+ * 
+ * @param first the first element to compare
+ * @param second the second to compare
+ * @return int that's -1 if first > second,
+ * 1 if first < second, 0 otherwise
+ */
+int compare_doubles(const void* first, const void* second) {
+  double a = *(const double*) first;
+  double b = *(const double*) second;
 
-  return (a - b);
+  return a > b ? - 1 : a < b ? 1 : 0;
 }

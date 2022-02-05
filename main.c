@@ -19,6 +19,8 @@ int main(int argc, char *argv[]) {
   clock_t begin, end;
   double elapsed_time = 0.0;
   int vertices_count = 0;
+  // 0 if the array of eigen values should be sorted, otherwise 1
+  int sort_array = 1;
 
   // Get args from command line
   if (argc == 4) {
@@ -38,42 +40,20 @@ int main(int argc, char *argv[]) {
   normalize_graph(&graph);
   //display_graph(graph);
 
+  int triplets_count = 0;
+  double** triplets = graph_to_matrix(graph, &triplets_count);
 
   begin = clock();
-//  Vector eigen_vector = apply_pagerank(array_size, graph.vertices_count, triplets, damping_factor, epsilon, max_iterations, &iterations_count);
-  
+  Vector eigen_vector = apply_pagerank(triplets_count, graph.vertices_count, triplets, damping_factor, epsilon, max_iterations, &iterations_count);
   end = clock();
-  
- /*  for (i = 0; i < graph.vertices_count; i++) {
-    free(triplets[i]);
-  } */
-
-  //free(triplets);
 
   elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
-  
   write_perf(damping_factor, elapsed_time, vertices_count);
+
+  if (sort_array > 0) qsort(eigen_vector.array, eigen_vector.length, sizeof(double), compare_doubles);
+  printf("\e[93m[PageRank]\e[39m DONE - Maximum range is %lf\n", eigen_vector.array[0]);
 
   vector_to_file(eigen_vector, "output/eigen_vector.txt");
   free(eigen_vector.array);
-  /*********************************************************************************/
   return 0;
-  //display_matrix(matrix);
-/* 
-  begin = clock();
-  Vector eigen_vector = apply_pagerank(matrix, damping_factor, epsilon, max_iterations, &iterations_count);
-  end = clock();
-
-  free_matrix(&matrix);
-  
-  vector_to_file(eigen_vector, "output/eigen_vector.txt");
-  free(eigen_vector.array);
-
-  elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
-  
-  write_perf(damping_factor, elapsed_time, vertices_count);
-
-  //for (i = 0; i < eigen_vector.length; printf("eigen vector value n°%d: %lf\n", i, eigen_vector.array[i++]));
-
-  return 0; */
 }
