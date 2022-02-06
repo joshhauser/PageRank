@@ -181,16 +181,27 @@ int matrix_to_file(Matrix matrix, char *file_path) {
 	return written_chars_count;
 }
 
-Vector matrix_dot_vector_2(double** reduced_matrix, Vector vector, int triplets_count) {
+/**
+ * @brief Multiply a vector by a matrix,
+ * using a list of triplets to represent
+ * a hollow matrix
+ * 
+ * @param triplets the list of tripleys
+ * @param vector the vector
+ * @param triplets_count the number of triplets
+ * @return Vector that is vector * triplets
+ */
+Vector matrix_dot_vector(double** triplets, Vector vector, int triplets_count) {
 	int i;
 	Vector result;
 	result.length = vector.length;
 	allocate_vector(&result);
 	
+	// Fill the result vector with zeros
 	for (i = 0; i < result.length; i++) result.array[i] = 0.0;
 
 	for (i = 0; i < triplets_count; i++) {
-		result.array[(int) reduced_matrix[i][0]] += (reduced_matrix[i][2] * vector.array[(int) reduced_matrix[i][1]]);
+		result.array[(int) triplets[i][0]] += (triplets[i][2] * vector.array[(int) triplets[i][1]]);
 	}
 
 	return result;
