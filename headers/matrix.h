@@ -28,7 +28,6 @@ void display_matrix(Matrix matrix);
 void double_divide_vector(Vector *vector, double x);
 Matrix dot_matrices(Matrix matrix1, Matrix matrix2);
 double** graph_to_matrix(Graph graph, int* triplets_count);
-Vector matrix_dot_vector(Matrix matrix, Vector vector);
 Vector matrix_dot_vector(double** triplets, Vector vector, int triplets_count);
 int vector_to_file(Vector vector, char *file_path);
 int matrix_to_file(Matrix matrix, char *file_path);
