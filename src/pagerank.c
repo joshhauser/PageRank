@@ -12,8 +12,10 @@
  * 
  * @param damping_factor the damping factor used for
  * pagerank algorithm
- * @param iterations number of iterations necessary
- * for pagerank algorithm to return the eigen vector
+ * @param elapsed_time the time between beginning
+ * and ending of the PageRank algorithm execution
+ * @param nodes_count the number of nodes for
+ * the graph used in the current execution
  * @return int -1 in case of errors, otherwise the
  * number of written characcters
  */
@@ -33,7 +35,23 @@ int write_perf(double damping_factor, double elapsed_time, int nodes_count) {
   return written_chars_count;
 }
 
-Vector apply_pagerank(int triplets_count, int nodes_count, double** reduced_matrix, double damping_factor, double epsilon, int max_iterations, int *iterations_count) {
+/**
+ * @brief Apply PageRank algorithm
+ * 
+ * @param triplets_count the number of triplets
+ * @param nodes_count the number of nodes for the graph
+ * on which PageRank is applied
+ * @param triplets a list of triplets
+ * used to represent a hollow matrix,
+ * each triplet has this shape: [column, line, value]
+ * @param damping_factor the damping factor used for PageRank
+ * @param epsilon the maximum gap between to iterations,
+ * which defines the stability of the eigen vector
+ * @param max_iterations the maximum iterations
+ * @param iterations_count the number of passed iterations
+ * @return Vector the eigen vector
+ */
+Vector apply_pagerank(int triplets_count, int nodes_count, double** triplets, double damping_factor, double epsilon, int max_iterations, int *iterations_count) {
   Vector eigen_vector, previous_ev, zeros;
   double err;
   int i,j;
@@ -47,15 +65,7 @@ Vector apply_pagerank(int triplets_count, int nodes_count, double** reduced_matr
 
   for (j = 0; j < max_iterations; j++) {
     previous_ev = eigen_vector;
-    
-    /* for (i = 0; i < zeros.length; i++) 
-      zeros.array[i] = 0.0; */
-
-    eigen_vector = matrix_dot_vector_2(reduced_matrix, eigen_vector, triplets_count);
-    /* for (i = 0; i < zeros.length; i++) {
-      eigen_vector.array[i] = zeros.array[i];
-      printf("z: %lf, e: %lf, p: %lf\n", zeros.array[i], eigen_vector.array[i], previous_ev.array[i]);
-    }   */    
+    eigen_vector = matrix_dot_vector(triplets, eigen_vector, triplets_count);
 
     err = 0.0;
     for (i = 0; i < nodes_count; i++) {
@@ -64,10 +74,7 @@ Vector apply_pagerank(int triplets_count, int nodes_count, double** reduced_matr
     }
 
     *iterations_count = j;
-
-    if (err < epsilon) {
-      return eigen_vector;
-    }
+    if (err < epsilon) return eigen_vector;
   }
 
   free(previous_ev.array);

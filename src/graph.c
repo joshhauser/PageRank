@@ -196,6 +196,11 @@ int compare_vertices_label(const void* first, const void* second) {
   return (first_vertice.label - second_vertice.label);
 }
 
+/**
+ * @brief Free a graph
+ * 
+ * @param graph the graph to free
+ */
 void free_graph(Graph* graph) {
   int i;
 

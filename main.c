@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   double elapsed_time = 0.0;
   int vertices_count = 0;
   // 0 if the array of eigen values should be sorted, otherwise 1
-  int sort_array = 1;
+  int sort_array = -1;
 
   // Get args from command line
   if (argc == 4) {
@@ -50,8 +50,13 @@ int main(int argc, char *argv[]) {
   elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
   write_perf(damping_factor, elapsed_time, vertices_count);
 
-  if (sort_array > 0) qsort(eigen_vector.array, eigen_vector.length, sizeof(double), compare_doubles);
-  printf("\e[93m[PageRank]\e[39m DONE - Maximum range is %lf\n", eigen_vector.array[0]);
+  if (sort_array > 0) {
+    qsort(eigen_vector.array, eigen_vector.length, sizeof(double), compare_doubles);
+    printf("\e[93m[PageRank]\e[39m DONE - Maximum range is %lf\n", eigen_vector.array[0]);
+  }
+  else {
+    printf("\e[93m[PageRank]\e[39m DONE\n");
+  }
 
   vector_to_file(eigen_vector, "output/eigen_vector.txt");
   free(eigen_vector.array);

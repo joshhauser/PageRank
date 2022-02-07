@@ -1,7 +1,7 @@
 # Compiler
 CC=gcc
 # Flags for compilation
-CFLAGS=-Wall 
+CFLAGS=-Wall -fopenmp
 # Executable file name
 EXEC=pagerank
 # Source files folder
