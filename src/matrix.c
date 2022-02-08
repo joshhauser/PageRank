@@ -199,10 +199,8 @@ Vector matrix_dot_vector(double** triplets, Vector vector, int triplets_count) {
 	allocate_vector(&result);
 	
 	// Fill the result vector with zeros
-	#pragma omp parallel for num_threads(4)
 	for (i = 0; i < result.length; i++) result.array[i] = 0.0;
 
-	#pragma omp parallel for num_threads(4)
 	for (i = 0; i < triplets_count; i++) {
 		result.array[(int) triplets[i][0]] += (triplets[i][2] * vector.array[(int) triplets[i][1]]);
 	}

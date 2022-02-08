@@ -8,4 +8,4 @@ set xlabel "Nodes count"
 set ylabel "Execution duration (s)"
 
 set datafile separator ";"
-plot "output/performance.txt" using 1:3 with linespoint
+plot "output/performance.txt" using 2:4 with linespoint
