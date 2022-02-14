@@ -1,14 +1,7 @@
-graphs/email-Eu-core.txt; 25571; 0.850000; 0.013486
-graphs/twitch_FR.txt; 112666; 0.850000; 0.020522
-graphs/Wiki-Vote.txt; 103689; 0.850000; 0.028425
-graphs/p2p-Gnutella04.txt; 39994; 0.850000; 0.008315
-graphs/higgs-reply_network.edgelist; 32523; 0.850000; 0.054026
-graphs/Slashdot0811.txt; 77360; 0.850000; 0.469305
-graphs/higgs-mention_network.edgelist; 118427; 0.850000; 0.116707
-
-graphs/email-Eu-core.txt; 1070; 0.850000; 0.008252
-graphs/email-Eu-core.txt; 1070; 0.850000; 0.008408
-graphs/twitch_FR.txt; 6549; 0.850000; 0.014250
-graphs/Wiki-Vote.txt; 7115; 0.850000; 0.022266
-graphs/p2p-Gnutella04.txt; 10876; 0.850000; 0.006548
-graphs/higgs-reply_network.edgelist; 39192; 0.850000; 0.040044
+graphs/email-Eu-core.txt;1070;25571;0.850000;0.013639;
+graphs/higgs-reply_network.edgelist;39192;32523;0.850000;0.058339;
+graphs/p2p-Gnutella04.txt;10876;39994;0.850000;0.008207;
+graphs/Wiki-Vote.txt;7115;103689;0.850000;0.028278;
+graphs/twitch_FR.txt;6549;112666;0.850000;0.021301;
+graphs/higgs-mention_network.edgelist;118427;150818;0.850000;0.129344;
+graphs/Slashdot0811.txt;77360;905468;0.850000;0.410154;

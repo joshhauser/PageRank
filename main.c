@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
   int iterations_count = 0;
   clock_t begin, end;
   double elapsed_time = 0.0;
-  int vertices_count = 0;
   // 0 if the array of eigen values should be sorted, otherwise 1
   int sort_array = -1;
 
@@ -35,17 +34,9 @@ int main(int argc, char *argv[]) {
   }
 
   Graph graph = get_graph_from_file(file_path);
-  vertices_count = graph.vertices_count;
   qsort(graph.vertices, graph.vertices_count, sizeof(Vertice), compare_vertices_label);
   normalize_graph(&graph);
   //display_graph(graph);
-
-  int links = 0;
-  for (int i = 0; i < graph.vertices_count; i++) {
-    links += graph.vertices[i].neighbours_count;
-  }
-
-  printf("links : %d\n", links);
 
   int triplets_count = 0;
   double** triplets = graph_to_matrix(graph, &triplets_count);
@@ -55,7 +46,7 @@ int main(int argc, char *argv[]) {
   end = clock();
 
   elapsed_time = (double)(end - begin) / CLOCKS_PER_SEC;
-  write_perf(file_path, damping_factor, elapsed_time, vertices_count);
+  write_perf(file_path, damping_factor, elapsed_time, graph.vertices_count, graph.edges_count);
 
   if (sort_array > 0) {
     qsort(eigen_vector.array, eigen_vector.length, sizeof(double), compare_doubles);

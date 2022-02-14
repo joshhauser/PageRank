@@ -18,6 +18,7 @@ Graph get_graph_from_file(char *file_path) {
   size_t length = 0;
   ssize_t read = 0;
   int i = 0;
+  int edges_count = 0;
   int value, from_index, to_index, bs_index;
   Vertice from, to;
 
@@ -34,6 +35,7 @@ Graph get_graph_from_file(char *file_path) {
   
   // Read graph file
   while ((read = getline(&line, &length, fp)) != -1) {
+    edges_count++;
     // Scan first vertice label
     sscanf(&line[0], "%d", &value);
     from_index = index_in_vertices_array(graph.vertices, graph.vertices_count, value);
@@ -83,6 +85,8 @@ Graph get_graph_from_file(char *file_path) {
   }
 
   fclose(fp);
+
+  graph.edges_count = edges_count;
 
   return graph;
 }

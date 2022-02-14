@@ -20,7 +20,7 @@
  * @return int -1 in case of errors, otherwise the
  * number of written characcters
  */
-int write_perf(char* graph_name, double damping_factor, double elapsed_time, int nodes_count) {
+int write_perf(char* graph_name, double damping_factor, double elapsed_time, int nodes_count, int edges_count) {
   char *file_path = "output/performance.txt";
   FILE *file_pointer = fopen(file_path, "a");
   int written_chars_count = 0;
@@ -30,7 +30,7 @@ int write_perf(char* graph_name, double damping_factor, double elapsed_time, int
     exit(EXIT_FAILURE);
   }
 
-  written_chars_count = fprintf(file_pointer, "%s; %d; %lf; %lf\n", graph_name, nodes_count, damping_factor, elapsed_time);
+  written_chars_count = fprintf(file_pointer, "%s;%d;%d;%lf;%lf;\n", graph_name, nodes_count, edges_count, damping_factor, elapsed_time);
   fclose(file_pointer);
 
   return written_chars_count;

@@ -1,3 +1,6 @@
 graphs/wiki-topcats.txt
 src/*.o
 graphs/Slashdot0811.txt
+graphs/higgs*
+graphs/soc*
+graphs/Amazon*

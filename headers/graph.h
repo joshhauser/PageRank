@@ -12,6 +12,7 @@ typedef struct t_graph Graph;
 struct t_graph {
 	Vertice *vertices;
   int vertices_count;
+  int edges_count;
 };
 
 Graph get_graph_from_file(char *file_path);
