@@ -17,6 +17,8 @@
  * and ending of the PageRank algorithm execution
  * @param nodes_count the number of nodes for
  * the graph used in the current execution
+ * @param edges_count the number of edges
+ * for the graph used in the current execution
  * @return int -1 in case of errors, otherwise the
  * number of written characcters
  */
