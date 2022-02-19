@@ -4,3 +4,8 @@ graphs/Slashdot0811.txt
 graphs/higgs*
 graphs/soc*
 graphs/Amazon*
+*plot*.png
+*.gp
+*.py
+*.pdf
+pagerank
