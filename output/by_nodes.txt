@@ -1,7 +1,0 @@
-graphs/email-Eu-core.txt;1070;25571;0.850000;0.013639;
-graphs/twitch_FR.txt;6549;112666;0.850000;0.021301;
-graphs/Wiki-Vote.txt;7115;103689;0.850000;0.028278;
-graphs/p2p-Gnutella04.txt;10876;39994;0.850000;0.008207;
-graphs/higgs-reply_network.edgelist;39192;32523;0.850000;0.058339;
-graphs/Slashdot0811.txt;77360;905468;0.850000;0.410154;
-graphs/higgs-mention_network.edgelist;118427;150818;0.850000;0.129344;
