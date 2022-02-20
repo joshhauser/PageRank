@@ -9,3 +9,5 @@ graphs/Amazon*
 *.py
 *.pdf
 pagerank
+*.pdf
+.vscode/
